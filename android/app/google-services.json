@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "867488395277",
+    "firebase_url": "https://sulogistica-e80cd-default-rtdb.firebaseio.com",
+    "project_id": "sulogistica-e80cd",
+    "storage_bucket": "sulogistica-e80cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867488395277:android:7affb929780a61f185a544",
+        "android_client_info": {
+          "package_name": "com.example.diligencias"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0MTZMGsopF7Jg_l4qzjI7fAajZpQYess"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867488395277:android:034c7648919accaf85a544",
+        "android_client_info": {
+          "package_name": "com.example.sulogistica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0MTZMGsopF7Jg_l4qzjI7fAajZpQYess"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867488395277:android:dbb02164ac30d46a85a544",
+        "android_client_info": {
+          "package_name": "com.su_logistica.suweb_domicilios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0MTZMGsopF7Jg_l4qzjI7fAajZpQYess"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "867488395277-ha0n9dmu47lajb0h27f7bdfpadd163dg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
