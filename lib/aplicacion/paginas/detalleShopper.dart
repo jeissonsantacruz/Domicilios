@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/HomeDomicilios_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +33,17 @@ class _CheckinState extends State<Checkin> {
   final prefs = PreferenciasUsuario();
   TextEditingController observacionesControlador = new TextEditingController();
   List<File> imagenFile = [];
+  Position _posicionActual;
+  // Funcion que retorna la poscion actual
+  Future<Position> _obtenerPosicion() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print(position);
+    setState(() {
+      _posicionActual = position;
+    });
+    return _posicionActual;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -298,6 +310,7 @@ class _CheckinState extends State<Checkin> {
   //this widget paint  call the aditional services provider and create a iterable list
 
   _onButtonPressed() async {
+    await _obtenerPosicion();
     final provUsuario = Provider.of<ProvUsuario>(context);
     int numeroFoto = 0;
     String nombreFoto = "_" + "DOMICILIOS" + "_" + widget.idPedido.toString() + "_";
@@ -319,7 +332,7 @@ class _CheckinState extends State<Checkin> {
        await  servicios.grabarPicking(widget.listaProductos);
       }
       var res = servicios.cambiarEstado(
-          widget.idPedido.toString(), prefs.estado, observacionesControlador.text);
+          widget.idPedido.toString(), prefs.estado, observacionesControlador.text,_posicionActual.latitude, _posicionActual.longitude);
       res.then((respuesta) async {
         if (respuesta) {
           prefs.estado += 1;

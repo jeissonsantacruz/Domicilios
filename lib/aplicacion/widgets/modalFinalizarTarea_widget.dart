@@ -5,7 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:suweb_domicilios/aplicacion/paginas/Picking_page.dart';
+// import 'package:suweb_domicilios/aplicacion/paginas/Picking_page.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/pedidosDomiciliario.dart';
 import 'package:suweb_domicilios/arquitectura/preferenciasUsuario.dart';
 import 'package:suweb_domicilios/arquitectura/serviciosGestioncci.dart';

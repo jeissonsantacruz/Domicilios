@@ -30,9 +30,9 @@ def keystorePropertiesFile = rootProject.file('key.properties')
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
-
 android {
-
+    // ndkVersion "23.0.7196353"
+  
     compileSdkVersion 29
 
     sourceSets {
@@ -50,6 +50,9 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // ndk {
+        //     debugSymbolLevel 'FULL'
+        // }
     }
 
     signingConfigs {

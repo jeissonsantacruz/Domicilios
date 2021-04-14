@@ -7,6 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image/image.dart' as Imagen;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -42,6 +43,7 @@ class _LoginPageState extends State<DetalleTarea> {
   String mensaje;
   String value;
   String incidencia;
+  Position _posicionActual;
 
   @override
   void initState() {
@@ -72,6 +74,15 @@ class _LoginPageState extends State<DetalleTarea> {
       }
     }
     return _incidencias;
+  }
+   Future<Position> _obtenerPosicion() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    print(position);
+    setState(() {
+      _posicionActual = position;
+    });
+    return _posicionActual;
   }
 
   @override
@@ -397,6 +408,7 @@ class _LoginPageState extends State<DetalleTarea> {
   onButtonPressed() async {
     int estadoPedido;
     int numeroFoto = 0;
+        await _obtenerPosicion(); // obtiene la posicion del usuario
     String nombreFoto =
         "_" + "DOMICILIOS" + "_" + modelo.pedido.toString() + "_";
     if (modelo.estado == 'PAGADO') {
@@ -420,7 +432,7 @@ class _LoginPageState extends State<DetalleTarea> {
     print(incidencia);
     if (incidencia == null) {
       var res = servicios.cambiarEstado(modelo.pedido.toString(), estadoPedido,
-          observacionesControlador.text);
+          observacionesControlador.text,_posicionActual.latitude,_posicionActual.longitude);
       res.then((respuesta) async {
         if (respuesta) {
           Fluttertoast.showToast(

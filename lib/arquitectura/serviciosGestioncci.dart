@@ -17,7 +17,7 @@ final String urlBase = global.url;
 class ServiciosGestionCci {
   final String url = urlBase + 'controladores/funcionesGestioncci.php';
   final preferenciasUsuario = new PreferenciasUsuario();
-  List _diligencias = new List();
+  // List _diligencias = new List();
   final prefs = PreferenciasUsuario();
   //=============================================================================== POST BUSCAR USuARIO
   final String urlbuscarUsuario = global.url + 'funcionesLogin.php';
@@ -106,7 +106,7 @@ class ServiciosGestionCci {
     final encodedData = FormData.fromMap(data);
     // make POST request
     Response response = await dio.post(urltoken, data: encodedData);
-
+  
     return true;
   }
 
@@ -179,14 +179,17 @@ class ServiciosGestionCci {
       urlBase + 'controladores/funcionesDomicilioSeguimiento.php';
   // funcion que lista los historiales de los movimientos de los mensajeros.
   Future<bool> cambiarEstado(
-      String idPedido, int estado, String observacion) async {
-    var data = {
+      String idPedido, int estado, String observacion, double latitud , double  longitud) async {
+   
+     var data = {
       "funcionphp": "actualizarEstado",
       "idUsuario": prefs.oidUsuario,
       "idPedido": idPedido,
       "estado": estado,
       "nota": observacion,
-      "dispositivo": "movil"
+      "dispositivo": "movil",
+      "latitud":latitud,
+      "longitud" : longitud
     };
     var dio = Dio();
     final encodedData = FormData.fromMap(data);
@@ -353,7 +356,7 @@ class ServiciosGestionCci {
     final encodedData = FormData.fromMap(data);
     // make POST request
     Response response = await dio.post(urlIncidencias, data: encodedData);
-    // final decodeData = jsonDecode(response.data);
+     final decodeData = jsonDecode(response.data);
 
     return true;
   }
