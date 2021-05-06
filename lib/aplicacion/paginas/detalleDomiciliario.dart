@@ -16,7 +16,8 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/HomeDomicilios_page.dart';
 import 'package:suweb_domicilios/arquitectura/preferenciasUsuario.dart';
 import 'package:suweb_domicilios/arquitectura/serviciosGestioncci.dart';
-import 'package:suweb_domicilios/dominio/diligenciasModelo_model.dart';
+import 'package:suweb_domicilios/dominio/domicilioModelo.dart';
+import 'package:suweb_domicilios/dominio/estadosModelos.dart';
 import 'package:suweb_domicilios/dominio/incidenciasModelo.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:suweb_domicilios/ambientes.dart' as global;
@@ -32,6 +33,7 @@ class DetalleTarea extends StatefulWidget {
 class _LoginPageState extends State<DetalleTarea> {
   final Domicilio modelo;
   _LoginPageState(this.modelo);
+  
   final prefs = PreferenciasUsuario();
   TextEditingController observacionesControlador = new TextEditingController();
   TextEditingController cancelarOrdController = new TextEditingController();
@@ -43,6 +45,7 @@ class _LoginPageState extends State<DetalleTarea> {
   String mensaje;
   String value;
   String incidencia;
+  String _estado;
   Position _posicionActual;
 
   @override
@@ -74,6 +77,34 @@ class _LoginPageState extends State<DetalleTarea> {
       }
     }
     return _incidencias;
+  }
+
+  var urlEstadosSeccion = urlBase + 'controladores/funcionesSecciones.php';
+  Future<List<Estado>> estadosSeccion() async {
+    var data = {
+      "funcionphp": 'tomarEstados',
+      "dispositivo": 'movil',
+      "oidSeccion": '4380',
+      "estadoRequerido": modelo.estado
+    };
+    var dio = Dio();
+    final encodedData = FormData.fromMap(data);
+    // make POST request
+    Response response = await dio.post(urlEstadosSeccion, data: encodedData);
+
+    final decodeData = jsonDecode(response.data);
+    
+    List<Estado> listaTemp = [];
+    if (decodeData["lstActuales"] != []) {
+      var listaEstados = decodeData["lstActuales"] as List;
+      for (var lista in listaEstados) {
+
+        Estado estado = Estado(estado: lista[2], value: lista[3]);
+        listaTemp.add(estado);
+      }
+    }
+
+    return listaTemp;
   }
    Future<Position> _obtenerPosicion() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -150,7 +181,7 @@ class _LoginPageState extends State<DetalleTarea> {
                             ),
                             Text(
                               'Estado:' + ' ' + prefs.datosDetallePed[1] == ''
-                                  ? modelo.estado
+                                  ? modelo.estado.toString()
                                   : prefs.datosDetallePed[1],
                               style: TextStyle(
                                 fontSize: size.width * 0.04,
@@ -165,7 +196,7 @@ class _LoginPageState extends State<DetalleTarea> {
                             Text(
                                 'Dirección:' + ' ' + prefs.datosDetallePed[2] ==
                                         ''
-                                    ? modelo.direccion
+                                    ? modelo.direccion.toString()
                                     : prefs.datosDetallePed[2],
                                 style: TextStyle(
                                   fontSize: size.width * 0.04,
@@ -360,6 +391,57 @@ class _LoginPageState extends State<DetalleTarea> {
               _mostarImagenes(),
               Column(
                 children: [
+                  Padding(
+                    padding:  EdgeInsets.only(left:size.width*0.1,right: size.width*0.1),
+                    child: FutureBuilder(
+                              future: estadosSeccion(), // llamado al servicio
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<List<Estado>> snapshot) {
+                                if (snapshot.hasData) {
+                                  final lista = snapshot.data;
+                                  return DropdownButton(
+                                      value:  _estado,
+                                      isExpanded: true,
+                                      icon: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15.0),
+                                        child: Icon(Icons.arrow_drop_down),
+                                      ),
+                                      iconSize: 25,
+                                      underline: SizedBox(),
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          print(newValue);
+                                          _estado = newValue;
+                                        });
+                                        print(_estado);
+                                      },
+                                      hint: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Seleccionar estado'),
+                                      ),
+                                      items: lista.map((data) {
+                                        return DropdownMenuItem(
+                                          value: data.value.toString(),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 10.0),
+                                            child: Text(
+                                              data.estado.toString(),
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList());
+                                } else {
+                                  return Center(
+                                      child: CircularProgressIndicator());
+                                }
+                              }),
+                  ),
                   Container(
                       alignment: Alignment.bottomCenter,
                       padding: EdgeInsets.only(
@@ -406,16 +488,12 @@ class _LoginPageState extends State<DetalleTarea> {
   }
 
   onButtonPressed() async {
-    int estadoPedido;
+    if(_estado != null){
     int numeroFoto = 0;
         await _obtenerPosicion(); // obtiene la posicion del usuario
     String nombreFoto =
         "_" + "DOMICILIOS" + "_" + modelo.pedido.toString() + "_";
-    if (modelo.estado == 'PAGADO') {
-      estadoPedido = 5;
-    } else {
-      estadoPedido = 6;
-    }
+   
     prefs.pedidoPendiente = true;
     if (imagenText.isNotEmpty) {
       imagenText.forEach((element) async {
@@ -430,8 +508,8 @@ class _LoginPageState extends State<DetalleTarea> {
       imagenFile = [];
     }
     print(incidencia);
-    if (incidencia == null) {
-      var res = servicios.cambiarEstado(modelo.pedido.toString(), estadoPedido,
+    if (incidencia != null) {
+      var res = servicios.cambiarEstado(modelo.pedido.toString(), int.parse(_estado),
           observacionesControlador.text,_posicionActual.latitude,_posicionActual.longitude);
       res.then((respuesta) async {
         if (respuesta) {
@@ -478,6 +556,17 @@ class _LoginPageState extends State<DetalleTarea> {
               MaterialPageRoute(builder: (context) => HomeUsuario()),
               ModalRoute.withName("homeUsuario"));
       });
+    }}
+    else{
+         Fluttertoast.showToast(
+              msg: "Debes seleccionar un estado para la gestión.",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 3,
+              backgroundColor: Colors.redAccent[700],
+              textColor: Colors.white,
+              fontSize: 16.0);
+
     }
   }
 
@@ -581,7 +670,7 @@ class _LoginPageState extends State<DetalleTarea> {
                 )))
       ]);
     } else {
-      return Text("Sin selecionar imagen");
+      return Container();
     }
   }
 
