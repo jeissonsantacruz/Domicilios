@@ -7,7 +7,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:suweb_domicilios/ambientes.dart' as global;
 import 'package:suweb_domicilios/arquitectura/preferenciasUsuario.dart';
 import 'package:suweb_domicilios/dominio/detalleProducto.dart';
-import 'package:suweb_domicilios/dominio/diligenciasModelo_model.dart';
+import 'package:suweb_domicilios/dominio/domicilioModelo.dart';
 import 'package:suweb_domicilios/dominio/dominio/picking_model.dart';
 import 'package:suweb_domicilios/dominio/estadosModelos.dart';
 

@@ -9,7 +9,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/pedidosDomiciliario.dart';
 import 'package:suweb_domicilios/aplicacion/widgets/modalFinalizarTarea_widget.dart';
 import 'package:suweb_domicilios/arquitectura/proveedorUsuario.dart';
-import 'package:suweb_domicilios/dominio/diligenciasModelo_model.dart';
+import 'package:suweb_domicilios/dominio/domicilioModelo.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,6 @@ import 'package:suweb_domicilios/arquitectura/preferenciasUsuario.dart';
 import 'package:suweb_domicilios/arquitectura/serviciosGestioncci.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:suweb_domicilios/ambientes.dart' as global;
-import 'package:suweb_domicilios/dominio/estadosModelos.dart';
 import '../widgets/menuDrawer_widget.dart';
 
 //contiene la vista del Home para un usuario logeado, muestra un drawer y la lista de tareas.

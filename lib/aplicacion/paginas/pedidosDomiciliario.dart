@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/HomeDomicilios_page.dart';
 import 'package:suweb_domicilios/arquitectura/preferenciasUsuario.dart';
 import 'package:suweb_domicilios/arquitectura/serviciosGestioncci.dart';
-import 'package:suweb_domicilios/dominio/diligenciasModelo_model.dart';
+import 'package:suweb_domicilios/dominio/domicilioModelo.dart';
 
 import 'detalleDomiciliario.dart';
 

@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/Home2.dart';
 import 'package:suweb_domicilios/aplicacion/paginas/Picking_page.dart';
+import 'package:suweb_domicilios/dominio/domicilioModelo.dart';
 
 import 'aplicacion/paginas/HomeDomicilios_page.dart';
 import 'aplicacion/paginas/detalleDomiciliario.dart';
@@ -38,11 +39,12 @@ class _MyAppState extends State<MyApp> {
       "/storage/emulated/0/Android/data/com.sulogistica.suweb_login.sulogistica/files/db.txt");
   final servicios = ServiciosGestionCci();
   final prefs = new PreferenciasUsuario();
+  Domicilio _domicilioG = Domicilio(estado: 'TRANSPORTE');
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(builder: (context) => ProvUsuario()),
+          ChangeNotifierProvider(create: (context) => ProvUsuario()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
