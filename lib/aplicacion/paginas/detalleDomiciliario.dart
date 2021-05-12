@@ -508,7 +508,7 @@ class _LoginPageState extends State<DetalleTarea> {
       imagenFile = [];
     }
     print(incidencia);
-    if (incidencia != null) {
+    if (incidencia == null) {
       var res = servicios.cambiarEstado(modelo.pedido.toString(), int.parse(_estado),
           observacionesControlador.text,_posicionActual.latitude,_posicionActual.longitude);
       res.then((respuesta) async {
